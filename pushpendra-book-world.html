@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pushpendra's Book World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&family=Roboto:wght@400;500&display=swap" rel="stylesheet">
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Roboto', Arial, sans-serif;
+            background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%);
+            color: #222;
+        }
+        header {
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+            padding: 2rem 1rem;
+            text-align: center;
+        }
+        header h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            margin: 0;
+            letter-spacing: 2px;
+        }
+        nav {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            background: #fff;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 1rem 0;
+        }
+        nav a {
+            color: #185a9d;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: color 0.2s;
+        }
+        nav a:hover {
+            color: #43cea2;
+        }
+        .books {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+            padding: 2rem;
+        }
+        .book {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 4px 16px rgba(67,206,162,0.15);
+            padding: 1.5rem;
+            text-align: center;
+            transition: transform 0.2s;
+        }
+        .book:hover {
+            transform: translateY(-8px) scale(1.03);
+        }
+        .book-title {
+            font-size: 1.5rem;
+            font-family: 'Montserrat', sans-serif;
+            color: #185a9d;
+            margin-bottom: 0.5rem;
+        }
+        .book-desc {
+            font-size: 1rem;
+            color: #555;
+            margin-bottom: 1rem;
+        }
+        .read-btn {
+            background: linear-gradient(90deg, #43cea2 0%, #185a9d 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+            cursor: pointer;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .read-btn:hover {
+            background: linear-gradient(90deg, #185a9d 0%, #43cea2 100%);
+        }
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+        .modal-content {
+            background: #fff;
+            border-radius: 12px;
+            padding: 2rem;
+            max-width: 600px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(24,90,157,0.2);
+        }
+        .close-btn {
+            background: #185a9d;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            float: right;
+        }
+        @media (max-width: 600px) {
+            header h1 { font-size: 1.5rem; }
+            .modal-content { padding: 1rem; }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Pushpendra's Book World</h1>
+        <p>Read amazing e-books for free!</p>
+    </header>
+    <nav>
+        <a href="#book1">Book 1</a>
+        <a href="#book2">Book 2</a>
+        <a href="#book3">Book 3</a>
+        <a href="#book4">Book 4</a>
+    </nav>
+    <section class="books">
+        <div class="book" id="book1">
+            <div class="book-title">Book 1 Title</div>
+            <div class="book-desc">Short description of Book 1.</div>
+            <a href="https://1drv.ms/b/c/860ab9b4d8d7a48a/ESPjIxoscKNHrE97e8e4JxgBTqtrktNc6bS0J6UInYfafA?e=M4FJkv" target="_blank" class="read-btn">Download PDF</a>
+        </div>
+        <div class="book" id="book2">
+            <div class="book-title">Book 2 Title</div>
+            <div class="book-desc">Short description of Book 2.</div>
+            <a href="https://1drv.ms/b/c/860ab9b4d8d7a48a/EdGlKQU-xt5Img07imoW8WUBou3chNUp3SDNP5zrhJBK5w?e=Ic3APb" target="_blank" class="read-btn">Download PDF</a>
+        </div>
+        <div class="book" id="book3">
+            <div class="book-title">Book 3 Title</div>
+            <div class="book-desc">Short description of Book 3.</div>
+            <button class="read-btn" onclick="openBook('book3')">Read Now</button>
+        </div>
+        <div class="book" id="book4">
+            <div class="book-title">Book 4 Title</div>
+            <div class="book-desc">Short description of Book 4.</div>
+            <button class="read-btn" onclick="openBook('book4')">Read Now</button>
+        </div>
+    </section>
+    <div class="modal" id="modal">
+        <div class="modal-content" id="modal-content">
+            <button class="close-btn" onclick="closeModal()">Close</button>
+            <div id="book-content"></div>
+        </div>
+    </div>
+    <script>
+        // Book 3 and 4 are placeholders
+        const books = {
+            book3: {
+                title: "Book 3 Title",
+                content: "<h2>Book 3 Title</h2><p>Full content of Book 3 goes here...</p>"
+            },
+            book4: {
+                title: "Book 4 Title",
+                content: "<h2>Book 4 Title</h2><p>Full content of Book 4 goes here...</p>"
+            }
+        };
+        function openBook(bookId) {
+            document.getElementById('book-content').innerHTML = books[bookId].content;
+            document.getElementById('modal').style.display = 'flex';
+        }
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>
